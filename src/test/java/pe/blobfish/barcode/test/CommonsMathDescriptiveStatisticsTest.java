@@ -1,4 +1,4 @@
-package pe.blobfish.barcode;
+package pe.blobfish.barcode.test;
 
 import org.apache.commons.math3.stat.descriptive.DescriptiveStatistics;
 

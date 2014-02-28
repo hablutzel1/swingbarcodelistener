@@ -1,8 +1,10 @@
-package pe.blobfish.barcode;
+package pe.blobfish.barcode.test;
 
 import org.fest.swing.edt.GuiActionRunner;
 import org.fest.swing.edt.GuiQuery;
 import org.fest.swing.fixture.FrameFixture;
+import pe.blobfish.barcode.BarcodeAwareAWTEventListener;
+import pe.blobfish.barcode.BarcodeCapturedListener;
 
 import javax.swing.*;
 import java.awt.*;

@@ -1,4 +1,4 @@
-package pe.blobfish.barcode;
+package pe.blobfish.barcode.test;
 
 import javax.swing.*;
 import java.awt.*;
