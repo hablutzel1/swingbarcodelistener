@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+
+<project>
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>pe.blobfish</groupId>
+    <artifactId>swingbarcodelistener</artifactId>
+    <version>0.1-SNAPSHOT</version>
+    <packaging>jar</packaging>
+
+    <dependencies>
+
+        <!-- TODO remove dependency on 'commons-math3' -->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-math3</artifactId>
+            <version>3.2</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.easytesting</groupId>
+            <artifactId>fest-swing</artifactId>
+            <version>1.2.1</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.intellij</groupId>
+            <artifactId>forms_rt</artifactId>
+            <version>7.0.3</version>
+            <scope>test</scope>
+        </dependency>
+
+
+    </dependencies>
+</project>

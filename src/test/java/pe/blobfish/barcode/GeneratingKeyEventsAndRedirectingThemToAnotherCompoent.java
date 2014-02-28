@@ -1,3 +1,5 @@
+package pe.blobfish.barcode;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.AWTEventListener;

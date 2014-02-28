@@ -1,3 +1,5 @@
+package pe.blobfish.barcode;
+
 import org.apache.commons.math3.stat.descriptive.DescriptiveStatistics;
 
 public class CommonsMathDescriptiveStatisticsTest {
