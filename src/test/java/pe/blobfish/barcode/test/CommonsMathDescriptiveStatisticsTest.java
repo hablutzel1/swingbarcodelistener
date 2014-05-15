@@ -1,7 +1,10 @@
 package pe.blobfish.barcode.test;
 
 import org.apache.commons.math3.stat.descriptive.DescriptiveStatistics;
+import org.junit.Ignore;
 
+
+@Ignore
 public class CommonsMathDescriptiveStatisticsTest {
     public static void main(String[] args) {
         DescriptiveStatistics descriptiveStatistics = new DescriptiveStatistics();

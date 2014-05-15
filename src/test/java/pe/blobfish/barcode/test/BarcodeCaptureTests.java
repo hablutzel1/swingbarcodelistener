@@ -35,7 +35,7 @@ public class BarcodeCaptureTests extends JFrame {
         };
 
         // important: take into account that timing is not that precise under debugging (specially with field, method... breakpoints)
-        Toolkit.getDefaultToolkit().addAWTEventListener(new BarcodeAwareAWTEventListener(barcodeCapturedListenerParameter), AWTEvent.KEY_EVENT_MASK);
+        Toolkit.getDefaultToolkit().addAWTEventListener(new BarcodeAwareAWTEventListener(barcodeCapturedListenerParameter, BarcodeAwareAWTEventListener.LF_SUFFIX), AWTEvent.KEY_EVENT_MASK);
 
         evento1Button.addActionListener(new ActionListener() {
             @Override

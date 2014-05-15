@@ -1,5 +1,6 @@
 package pe.blobfish.barcode;
 
+// TODO evaluate to use for events a similar mechanism that the default used by swing/AWT, something like addBarcodeListener, fireBarcodeRead, etc. It would maybe allow to listen for taken barcodes only in some specific places in the window. or use different listener for different windows.
 public interface BarcodeCapturedListener {
 
     /**

@@ -23,7 +23,7 @@ public class SupposedUnfocusedWindowBehaviour {
             public void barcodeCaptured(String barcodeString) {
                 System.out.println("Barcode captured: " + barcodeString);
             }
-        }), AWTEvent.KEY_EVENT_MASK);
+        }, BarcodeAwareAWTEventListener.LF_SUFFIX), AWTEvent.KEY_EVENT_MASK);
 
 
         button1.addActionListener(new ActionListener() {

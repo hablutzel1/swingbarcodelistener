@@ -1,11 +1,13 @@
 package pe.blobfish.barcode.test;
 
+import org.junit.Ignore;
 import pe.blobfish.barcode.BarcodeAwareAWTEventListener;
 import pe.blobfish.barcode.BarcodeCapturedListener;
 
 import javax.swing.*;
 import java.awt.*;
 
+@Ignore
 public class SimpleTest extends JFrame {
     public SimpleTest() throws HeadlessException {
 
