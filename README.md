@@ -52,3 +52,5 @@ Anyway it could be useful for you (for a prototype maybe) and you could try to f
 
 - Remove commons-math3 dependency
 - Re-enable the processing of ALT+F4, etc events.
+- Rewrite unit tests
+- Etc
