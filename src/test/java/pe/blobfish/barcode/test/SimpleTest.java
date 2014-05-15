@@ -11,8 +11,8 @@ public class SimpleTest extends JFrame {
 
         Toolkit.getDefaultToolkit().addAWTEventListener(new BarcodeAwareAWTEventListener(new BarcodeCapturedListener() {
             @Override
-            public void barcodeCaptured(String barcode) {
-                JOptionPane.showMessageDialog(SimpleTest.this, "barcode captured: " + barcode);
+            public void barcodeCaptured(String barcodeString) {
+                JOptionPane.showMessageDialog(SimpleTest.this, "barcode captured: " + barcodeString);
             }
         }), AWTEvent.KEY_EVENT_MASK);
 

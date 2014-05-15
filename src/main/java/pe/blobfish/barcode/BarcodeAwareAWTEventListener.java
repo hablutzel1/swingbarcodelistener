@@ -1,6 +1,7 @@
 package pe.blobfish.barcode;
 
 import org.apache.commons.math3.stat.descriptive.DescriptiveStatistics;
+import org.apache.log4j.Logger;
 import sun.awt.AWTAccessor;
 
 import javax.swing.*;
@@ -9,11 +10,48 @@ import java.awt.event.AWTEventListener;
 import java.awt.event.KeyEvent;
 import java.util.ArrayDeque;
 
+
+// TODO check: it is currently possibly conflicting with keyPressed, keyReleased, keyTyped regular per component listeners
 public class BarcodeAwareAWTEventListener implements AWTEventListener {
 
     private final ArrayDeque<KeyEvent> generatedEventsDeque = new ArrayDeque<KeyEvent>(); // TODO check!! do we really need a COllection.synchronizable??;
 
+    private final Logger logger = Logger.getLogger(BarcodeAwareAWTEventListener.class);
+
     public BarcodeAwareAWTEventListener(final BarcodeCapturedListener barcodeCapturedListenerParameter) {
+
+        DefaultKeyboardFocusManager.getCurrentKeyboardFocusManager().
+                addKeyEventPostProcessor(new KeyEventPostProcessor() {
+
+
+                    public KeyEvent lastKeyPressed;
+
+                    @Override
+                    public boolean postProcessKeyEvent(KeyEvent currentEvent) {
+
+                        if (AWTAccessor.getAWTEventAccessor().isSystemGenerated(currentEvent)) {
+
+
+
+                            if (!currentEvent.isConsumed()) {
+                                if (currentEvent.getID() == KeyEvent.KEY_PRESSED) {
+                                    lastKeyPressed = currentEvent;
+                                } else if (currentEvent.getID() == KeyEvent.KEY_TYPED) {
+                                    lastKeyPressed.consume();
+                                    currentEvent.consume();
+                                    synchronized (generatedEventsDeque) {
+                                        generatedEventsDeque.addLast(cloneKeyEvent(lastKeyPressed));
+                                        generatedEventsDeque.addLast(cloneKeyEvent(currentEvent));
+                                    }
+
+                                }
+                            }
+                        }
+
+                        return false;
+                    }
+                });
+
 
         new Thread(new Runnable() {
 
@@ -52,7 +90,10 @@ public class BarcodeAwareAWTEventListener implements AWTEventListener {
 
                         } else if (firstAndPulledFromMainDeque.getID() == KeyEvent.KEY_TYPED) { // KEY_TYPED
 
-//                                    System.out.println("Polled event: " + firstAndPulledFromMainDeque.getWhen() + ", keyChar: " + firstAndPulledFromMainDeque.getKeyChar() + ", type: " + getTypeFromKeyEvent(firstAndPulledFromMainDeque));
+                            if (logger.isDebugEnabled()) {
+                                logger.debug("Polled event: " + firstAndPulledFromMainDeque.getWhen() + ", keyChar: " + firstAndPulledFromMainDeque.getKeyChar() + ", type: " + getTypeFromKeyEvent(firstAndPulledFromMainDeque));
+                            }
+
 
                             if (currentDeque.size() == 0) {
 
@@ -73,9 +114,8 @@ public class BarcodeAwareAWTEventListener implements AWTEventListener {
                                         prev = keyEvent;
                                     }
 
-                                    if (firstAndPulledFromMainDeque != null) {
-                                        descriptiveStatistics.addValue(firstAndPulledFromMainDeque.getWhen() - prev[1].getWhen());
-                                    }
+                                    descriptiveStatistics.addValue(firstAndPulledFromMainDeque.getWhen() - prev[1].getWhen());
+
 
                                     double calculatedStandardDeviation = descriptiveStatistics.getStandardDeviation();
                                     if (calculatedStandardDeviation > maxStandardDeviation) { // not good
@@ -174,15 +214,22 @@ public class BarcodeAwareAWTEventListener implements AWTEventListener {
     }
 
     public void eventDispatched(AWTEvent awtEvent) {
+
         if (!AWTAccessor.getAWTEventAccessor().isSystemGenerated(awtEvent)) {
             return;
         }
+
+
+        if (logger.isDebugEnabled()) {
+            logger.debug("pe.blobfish.barcode.BarcodeAwareAWTEventListener.eventDispatched(" + awtEvent + ")");
+        }
+
 
         if (awtEvent.getID() == KeyEvent.KEY_PRESSED || awtEvent.getID() == KeyEvent.KEY_TYPED) {
             KeyEvent keyEvent = (KeyEvent) awtEvent;
             keyEvent.consume();
 
-            KeyEvent generatedEvent = new KeyEvent(keyEvent.getComponent(), keyEvent.getID(), keyEvent.getWhen(), keyEvent.getModifiers(), keyEvent.getKeyCode(), keyEvent.getKeyChar(), keyEvent.getKeyLocation());
+            KeyEvent generatedEvent = cloneKeyEvent(keyEvent);
 
             synchronized (generatedEventsDeque) {
                 generatedEventsDeque.addLast(generatedEvent);
@@ -190,6 +237,10 @@ public class BarcodeAwareAWTEventListener implements AWTEventListener {
         }
 
 
+    }
+
+    private KeyEvent cloneKeyEvent(KeyEvent keyEvent) {
+        return new KeyEvent(keyEvent.getComponent(), keyEvent.getID(), keyEvent.getWhen(), keyEvent.getModifiers(), keyEvent.getKeyCode(), keyEvent.getKeyChar(), keyEvent.getKeyLocation());
     }
 
     private StringBuilder getTypeFromKeyEvent(KeyEvent firstInMainDeque) {

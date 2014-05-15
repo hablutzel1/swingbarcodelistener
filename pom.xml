@@ -16,6 +16,15 @@
             <version>3.2</version>
         </dependency>
 
+
+        <!-- TODO evaluate to delete dependency on log4j and use a simple (and included in source code) console logging mechanism -->
+        <dependency>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+            <version>1.2.15</version>
+        </dependency>
+
+        <!-- testing dependencies-->
         <dependency>
             <groupId>org.easytesting</groupId>
             <artifactId>fest-swing</artifactId>

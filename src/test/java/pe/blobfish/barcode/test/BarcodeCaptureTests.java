@@ -28,8 +28,8 @@ public class BarcodeCaptureTests extends JFrame {
 
         final BarcodeCapturedListener barcodeCapturedListenerParameter = new BarcodeCapturedListener() {
             @Override
-            public void barcodeCaptured(String s) {
-                JOptionPane.showMessageDialog(BarcodeCaptureTests.this, s);
+            public void barcodeCaptured(String barcodeString) {
+                JOptionPane.showMessageDialog(BarcodeCaptureTests.this, barcodeString);
 //                System.out.println("Barcode captured: " + s);
             }
         };
